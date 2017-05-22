@@ -1,0 +1,70 @@
+.action_btn
+{
+    width: 300px;
+    margin-bottom: 20px;
+}
+#battleship_table
+{
+    cursor: pointer;
+}
+.battle_ship_deselected
+{
+    background-color: white;
+}
+.battle_ship_selected
+{
+    background-color: #E3F2FD;
+    color: gray;
+}
+.battle_ship_placed
+{
+    background-color: red;
+}
+.battleship
+{
+    color: blue;
+}
+.carrier
+{
+    color: teal;
+}
+
+.cruiser
+{
+    color: green;
+}
+
+.destroyer
+{
+    color:#808000;
+}
+
+#game_setup_body
+{
+    margin-top: 30px;   
+}
+.gameboard
+{
+    cursor: pointer;
+}
+.game_td
+{
+    
+}
+.submarine
+{
+    color: purple;
+}
+.targetHit
+{
+    size: 2em;
+}
+.missHit
+{
+    color: red;
+}
+p
+{
+    font-size: 1.4em;
+}
+

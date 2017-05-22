@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang = "en">
+  <head>
+    <meta charset = "utf-8">
+    <meta http-equiv = "X-UA-Compatible" content = "IE=edge">
+    <meta name = "viewport" content = "width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Battleship Game</title>
+    <!-- Bootstrap -->
+    <link href = "styles/bootstrap.min.css" rel = "stylesheet">
+    <link href = "styles/style.css" rel = "stylesheet">
+  </head>
+  <body onload = "appLoaded()">
+    <!-- NAVBAR -->
+    <nav class = "navbar navbar-default">
+        <div class = "container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class = "navbar-header">
+            <button type = "button" class = "navbar-toggle collapsed" data-toggle = "collapse" data-target = "#bs-example-navbar-collapse-1" aria-expanded = "false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Battleship</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <div class = "canvas">
+        <div id = "start_screen" class = "row">
+            <div class = "col-md-12 col-sm-12">
+                <center><h1> BATTLESHIP GAME </h1></center>
+            </div>
+            <div class = "col-md-12 col-sm-12">
+                <center><button class = "btn btn-default action_btn" onClick = "startGame()"> START GAME </button></center>
+                <center><button class = "btn btn-info action_btn" onClick = "gameInstructions()"> GAME INSTRUCTIONS </button></center>
+                <center><button class = "btn btn-info action_btn" onClick = "devInfo()"> DEVELOPMENT INFO </button></center>
+                <center><button class = "btn btn-success action_btn" onClick = "showScoreBoard()"> SCOREBOARD </button></center>
+            </div>
+        </div>
+        <div id = "game_setup" class = "row">
+            <div class = "row">
+                <div class = "col-md-12 col-sm-12">
+                    <center><h3 id = "setup_player_label">SETUP PLAYER 1</h3></center>
+                </div>
+                <br />
+            </div>
+            <div id = "game_setup_body" class = "row">
+                <div id = "chose_battle_ships" class = "col-md-4 col-md-offset-1 col-sm-6">
+                    <br /><br />
+                    <input id ="player_name" type = "text" class = "form-control" placeholder = "Enter Player Name" aria-describedby="basic-addon1">
+                    <br />
+                    <div class="panel panel-default">
+                        <!-- Default panel contents -->
+                        <div class="panel-heading">Your Battleships</div>
+                        <!-- Table -->
+                        <table id = "battleship_table" class = "table table-bordered">
+                            <tr><th>Ship Name</th><th>Size</th><th>Direction</th></tr>
+                            <tr id = "carrier" onClick = "selectShip('carrier', 5)">
+                                <td><span class = 'carrier'>Carrier</span></td><td>5</td>
+                                <td>
+                                    <label class="radio-inline"><input id = "carrier_horizontal" type="radio" name="a" checked onClick = "shipDirection('carrier', 'horizontal')">Horizontal</label>
+                                    <label class="radio-inline"><input id = "carrier_vertical" type="radio" name="a" onClick = "shipDirection('carrier', 'vertical')">Vertical</label>
+                                <td>
+                            </tr>
+                            <tr id = "battleship" onClick = "selectShip('battleship', 4)">
+                                <td><span class = 'battleship'>Battleship</span></td><td>4</td>
+                                <td>
+                                    <label class="radio-inline"><input id = "battleship_horizontal" type="radio" name="b" checked onClick = "shipDirection('battleship', 'horizontal')">Horizontal</label>
+                                    <label class="radio-inline"><input id = "battleship_vertical" type="radio" name="b" onClick = "shipDirection('battleship', 'vertical')">Vertical</label>
+                                <td>
+                            </tr>
+                            <tr id = "cruiser" onClick = "selectShip('cruiser', 3)">
+                                <td><span class = 'cruiser'>Cruiser</span></td><td>3</td>
+                                <td>
+                                    <label class="radio-inline"><input id = "cruiser_horizontal" type="radio" name="c" checked onClick = "shipDirection('cruiser', 'horizontal')">Horizontal</label>
+                                    <label class="radio-inline"><input id = "cruiser_vertical" type="radio" name="c" onClick = "shipDirection('cruiser', 'vertical')">Vertical</label>
+                                <td>
+                            </tr>
+                            <tr id = "submarine" onClick = "selectShip('submarine', 3)">
+                                <td><span class = 'submarine'>Submarine</span></td><td>3</td>
+                                <td>
+                                    <label class="radio-inline"><input id = "submarine_horizontal" type="radio" name="d" checked onClick = "shipDirection('submarine', 'horizontal')">Horizontal</label>
+                                    <label class="radio-inline"><input id = "submarine_vertical" type="radio" name="d" onClick = "shipDirection('submarine', 'vertical')">Vertical</label>
+                                <td>
+                            </tr>
+                            <tr id = "destroyer" onClick = "selectShip('destroyer', 2)">
+                                <td><span class = 'destroyer'>Destroyer</span></td><td>2</td>
+                                <td>
+                                    <label class="radio-inline"><input id = "destroyer_horizontal" type="radio" name="e" checked onClick = "shipDirection('destroyer', 'horizontal')">Horizontal</label>
+                                    <label class="radio-inline"><input id = "destroyer_vertical" type="radio" name="e" onClick = "shipDirection('destroyer', 'vertical')">Vertical</label>
+                                <td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <button id = "ready_btn" onClick = "playerReady()" class = "btn btn-default" style = "display: none"> I AM READY </button>
+                </div>
+                <div id = "grid" class = "col-md-4 col-md-offset-1 col-sm-6">
+                    <div class="panel panel-default">
+                        <!-- Default panel contents -->
+                        <div class="panel-heading"><span id = "selected_ship_label">Pick A Ship From the Table On The Left</span></div>
+                        <!-- Table -->
+                        <table id = "gameboard_table" class = "table table-bordered gameboard">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- THIS IS WHERE THE ACTUAL GAME IS PLAYED -->
+        <div id = "game_play" class = "row">
+            <div id = "playerA" class = "col-md-5 col-md-offset-1 col-sm-12">
+                <div class = "col-md-12 col-sm-12">
+                    <center><h3 id = "playerA_name_label"> THIS IS PLAYER A</h1></center>
+                </div>
+                <div class = "col-md-12 col-sm-12">
+                    <table id = "playerA_gameboard_table" class = "table table-bordered gameboard">
+                    </table>
+                </div>
+            </div>
+            <div id = "playerB" class = "col-md-5 col-sm-12">
+                <div class = "col-md-12 col-sm-12">
+                    <center><h3 id = "playerB_name_label"> THIS IS PLAYER B</h1></center>
+                </div>
+                <div class = "col-md-12 col-sm-12">
+                    <table id = "playerB_gameboard_table" class = "table table-bordered gameboard">
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id = "whose_turn" class = "col-md-12 col-sm-12">
+            <center><h4 id = "whose_turn_label"></h4></center>
+        </div>
+    <div>
+    <!-- THIS IS GAME INSTRUCTION SECTION -->
+    <div id = "game_instruction" class = "row">
+            <center><h1> GAME INSTRUCTIONS </h1></center>
+            <div class = "col-md-10 col-md-offset-1 col-sm-12 ">
+                <br />
+                <p>Battleship (also Battleships or Sea Battle) is a guessing game for two players. 
+                    It is played on ruled grids (paper or board) on which the players' fleets of ships (including battleships) 
+                    are marked. The locations of the fleet are concealed from the other player. 
+                    Players alternate turns calling "shots" at the other player's ships, and the objective of the 
+                    game is to destroy the opposing player's fleet. - <b><i>Wikipedia.org</i></b></p>
+                
+                <p> When 'Start Game' button is clicked the players should take turn in setting up their information, including
+                    their name and the position of their ships. You can position your ships by CLICKING on one of the ships in
+                    the left table and then clicking at the position you would like to put that ship in the right table i.e. 
+                    in the Game Board.</p>
+                
+                <p>When the two players have entered their data then they are ready to play by taking turns. The first player that
+                    will succeed in destroying all the shipts of his/her opponent will be the winner <b> Enjoy!</b></p><br />
+                    <center><button class = "btn btn-warning action_btn" onClick = "goToStartScreen()"> GO BACK </button></center>
+            </div>
+    </div>
+    <!-- THIS IS DEV INSTRUCTION SECTION -->
+    <div id = "dev_instruction" class = "row">
+            <center><h1> DEV INSTRUCTIONS </h1></center>
+            <div class = "col-md-10 col-md-offset-1 col-sm-12 ">
+                <br />
+                <p>I have used JavaScript (ES6 standards) to build this single page web application without any framework such as
+                   AngularJS or ReactJS. The <b>index.html</b> file holds all the views (separated into different DIVS) which are 
+                   controlled (showed or hidden) by the <b>index.js</b> file which is also the main entry point for this application. 
+                </p>
+                <p> The application code is located inside the <b>js</b> folder. As we stated, <b><i>index.js</i></b> is the controller 
+                    of the app, i.e. the entry point of the app. The folder <b>models</b> contains three classes the <b>Player</b> class
+                    in which we handle the creation of the players including their ships. In the other class <b>Stage</b> we 
+                    controll the visual side of the application. We draw the gameBoards and visualize the user interactions. And lastly,
+                    we have the <b>Scoreboard</b> class which is used to store and retrieve the Score Board informations.
+                    In in the <b>js</b> folder we also have a <b>test</b> folder. The tests can be run from your console.
+                    Navigate to the project and then inside the <b>js</b> folder. Then type the command <b><u>mocha</u></b>.
+                </p>
+                <p><i>NOTE: Since this application is built using <b>ES6</b> standards the application cannot run in all the browsers. However,
+                    there are ways to solve that problem. <b>Babel</b> is a transpiler which takes the ES6 code and converts it into a
+                    JavaScript code that can run in all the browsers(almost). But, for the sake of this test assingment I haven't used
+                    <b>Babel</b>. 
+                </i></p>
+                
+                <center><button class = "btn btn-warning action_btn" onClick = "goToStartScreen()"> GO BACK </button></center>
+            </div>
+    </div>
+    <div id = "game_over" class = "row">
+        <br /><br />
+        <center><h1>GAME OVER!</h1></center>
+        <center><button class = "btn btn-default action_btn" onClick = "gameOver()"> START OVER AGAIN</button></center>
+    </div>
+    <div id = "score_board" class = "row">
+        <div class = "col-md-9 col-md-offset-2 col-sm-12">
+            <center><h1>Score Board</h1></center>
+            <hr />
+        </div>
+        <div id = "score_board_div" class = "col-md-5 col-md-offset-4 col-sm-12">
+            <table id = "score_board_table" class = "table table-bordered">
+            </table>
+        </div>
+        <div id = "score_board_tale" class = "col-md-9 col-md-offset-2 col-sm-12">
+            <center><button class = "btn btn-warning action_btn" onClick = "goToStartScreen()"> GO BACK </button></center>
+        </div>
+    </div>
+    <script src = "js/models/stage.js"></script>
+    <script src = "js/models/player.js"></script>
+    <script src = "js/models/scoreboard.js"></script>
+
+    <script src = "js/index.js"></script>
+  </body>
+</html>
