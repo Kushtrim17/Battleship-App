@@ -185,13 +185,13 @@ class Player {
        response.gotHit = false;
        this.ships.filter((ship) => {
            ship.location.forEach((coordinate) => {
-               if (coordinate.toString() == hitCoordinates.toString().trim()) {
-                   response.gotHit = true;
-                   response.ship = ship;
-                   //the ship was hit so we should record the damage
-                   ship.damage.push(hitCoordinates)
-                   response.hasAWinner = this.checkForWinner();
-                   return false; //break the loop
+                if (coordinate.toString().trim() === hitCoordinates.toString().trim()) {
+                    response.gotHit = true;
+                    response.ship = ship;
+                    //the ship was hit so we should record the damage
+                    ship.damage.push(hitCoordinates)
+                    response.hasAWinner = this.checkForWinner();
+                    return false; //break the loop
                }
            });
        });

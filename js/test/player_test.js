@@ -96,7 +96,9 @@ describe('Player methods', () => {
 
         describe('getHit', () => {
             it ('should hit the submarine ship', () => {
+                player.setShips(myShips);
                 const response = player.getHit([4, 1]);
+                response.gotHit.should.be.true;
             });
         });
     });

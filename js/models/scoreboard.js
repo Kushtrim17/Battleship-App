@@ -17,23 +17,25 @@ class Scoreboard {
      */
     getScoreBoard() {
         let scoreArray = [];
-        let scoreData = JSON.parse(this.scoreBoard).scoreboard;
+        if (this.scoreBoard !== undefined && this.scoreBoard.length > 0) {
+            let scoreData = JSON.parse(this.scoreBoard).scoreboard;
 
-        if (scoreData.length > 0) {
-            while (scoreData.length > 0) {
-                let tmpHighestScore = 0;
-                let indexToRemove = 0;
-                for (let i = 0; i <= scoreData.length; i++) {
-                    if (scoreData[i] !== undefined) {
-                        if (scoreData[i][1] > tmpHighestScore) {
-                            tmpHighestScore = scoreData[i][1];
-                            indexToRemove = i;
+            if (scoreData.length > 0) {
+                while (scoreData.length > 0) {
+                    let tmpHighestScore = 0;
+                    let indexToRemove = 0;
+                    for (let i = 0; i <= scoreData.length; i++) {
+                        if (scoreData[i] !== undefined) {
+                            if (scoreData[i][1] > tmpHighestScore) {
+                                tmpHighestScore = scoreData[i][1];
+                                indexToRemove = i;
+                            }
                         }
                     }
-                }
 
-                scoreArray.push(scoreData[indexToRemove]);
-                scoreData.splice(indexToRemove, 1);
+                    scoreArray.push(scoreData[indexToRemove]);
+                    scoreData.splice(indexToRemove, 1);
+                }
             }
         }
 
